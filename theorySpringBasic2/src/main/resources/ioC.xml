@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+
+
+
+
+
+
+
+
+	<!--Life cycle -->
+	<bean name="staff" class="com.phat.entity.Staff" init-method="Start"
+		destroy-method="Detroys"> <!-- have been thrown in Ioc Container -->
+		<property name="staffname" value="TranTuanPhat" /> <!-- different : assign a value to a class variable .Requirement: must have 
+			getter and setter -->
+
+	</bean>
+	<!--//Life cycle -->
+
+
+
+
+
+
+
+	<!--"factory method" -->
+	<bean name="factorymethod" class="com.phat.entity.Staff"
+		factory-method="newstaff">
+		<property name="staffname" value="TranTuanPhat" />
+	</bean>
+
+
+
+	<!--//" <bean name="factorymethod2" factory-bean="factorymethod" factory-method="newstaff"> 
+		<property name="staffname" value="TranTuanPhat"/> non static </bean> factory 
+		method" -->
+
+
+
+
+	<!--"constructor" -->
+	<bean name="constructor" class="com.phat.entity.Staff">
+		<constructor-arg name="address" value="QN" />
+		<constructor-arg value="phat" name="staffname" />
+	</bean>
+
+
+
+
+	<!--"constructor references" -->
+
+	<bean name="manager" class="com.phat.entity.Manager">
+		<constructor-arg name="function" value="manager" />
+		<constructor-arg value="someone" name="name" />
+		<constructor-arg name="address" value="NhonPhu" />
+	</bean>
+
+
+	<bean name="constructorref" class="com.phat.entity.Staff">
+		<constructor-arg ref="manager"></constructor-arg>
+	</bean>
+
+
+
+	<!-- Inner bean -->
+
+	<bean name="innerbean" class="com.phat.entity.Staff">
+		<property name="manager"><!-- call new class -->
+			<bean  name="innerbean" class="com.phat.entity.Manager">
+				<constructor-arg name="function" value="Serve" />
+				<constructor-arg value="someone" name="name" />
+				<constructor-arg name="address" value="NhonPhu" />
+			</bean>
+			</property>
+	</bean>
+
+
+
+
+
+	<!--//"constructor references" -->
+
+
+
+
+
+
+	<!--list -->
+	<bean name="list" class="com.phat.entity.Staff"> <!-- have been thrown in Ioc Container -->
+		<property name="list">
+			<list>
+				<value>this is value in list</value>
+				<value>this is value in list2</value>
+			</list>
+
+		</property>
+	</bean>
+	<!--//list -->
+
+
+	<!--list object several manager -->
+	<bean name="managerlist" class="com.phat.entity.Manager">
+		<constructor-arg name="function" value="manager" />
+		<constructor-arg value="someone" name="name" />
+		<constructor-arg name="address" value="NhonPhu" />
+	</bean>
+
+	<bean name="listobject" class="com.phat.entity.Staff">
+		<property name="listobject">
+			<list>
+				<ref bean="managerlist" />
+			</list>
+
+		</property>
+
+	</bean>
+	<!--//list -->
+
+
+
+	<!--Map -->
+	<bean name="map" class="com.phat.entity.Staff">
+		<property name="map">
+			<map>
+				<entry key="key1" value="abc"></entry>
+				<entry key="key2" value-ref="managerlist"></entry>
+			
+			</map>
+		</property>
+	</bean>
+	<!--//Map -->
+
+
+
+<!-- Properties -->
+<bean name="properties" class="com.phat.entity.Staff">
+<property name="properties">
+	<props>
+		<prop key="jdbc">sql</prop>
+		<prop key="user">root</prop>
+		<prop key="password">phat</prop>
+	</props>
+</property>
+ </bean>
+
+	<!--//Properties -->
+
+
+
+	<!--Spring scope  singleton-->
+	<bean name="scopesingleton" class="com.phat.entity.Staff" scope="prototype"> <!-- have been thrown in Ioc Container -->
+
+	</bean>
+	<!--//Spring scope  -->
+
+
+<!--//Spring custom loader-->
+
+<bean name="customloader" class="com.phat.controller.CustomLoader" autowire="byType"></bean>
+
+
+
+</beans>
+
