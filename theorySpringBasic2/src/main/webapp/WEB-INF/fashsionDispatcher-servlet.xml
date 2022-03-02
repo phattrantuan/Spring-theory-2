@@ -14,8 +14,12 @@
 <property name="prefix" value="/WEB-INF/Views/"></property>
 <property name="suffix" value=".jsp"></property>
 </bean>
-<import resource="classpath:ioC.xml"/>
+ <mvc:annotation-driven enable-matrix-variables="true"/>
 <!--  have been get class Staff into IoC container -->
 
+
+<!-- must have annotation-driven when add resouce -->
+<mvc:resources location="/StaticResource/" mapping="/resouce/**"></mvc:resources> <!-- static resource -->
 </beans>
 
+ 
