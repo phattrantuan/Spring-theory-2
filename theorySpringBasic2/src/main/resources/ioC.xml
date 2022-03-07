@@ -15,7 +15,6 @@
 
 
 
-
 	<!--Life cycle -->
 	<bean name="staff" class="com.phat.entity.Staff" init-method="Start"
 		destroy-method="Detroys"> <!-- have been thrown in Ioc Container -->
@@ -168,19 +167,11 @@
 
 
 
+ 
  <!-- 
- 
- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-    <property name="driverClassName" value="${jdbc.driverClassName}" />
-    <property name="url" value="${jdbc.url}" />
-    <property name="username" value="${jdbc.username}" />
-    <property name="password" value="${jdbc.password}" />
-</bean>
- 
-  -->
 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-	<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/employeee"/>
+	 <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/> 
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/employee?autoReconnect=true"/>
         <property name="username" value="root"/>
         <property name="password" value="phat"/>
 </bean>
@@ -188,11 +179,11 @@
 
 <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 <property name="dataSource" ref="dataSource"></property>
-<property name="packagesToScan" value=""></property>
+<property name="packagesToScan" value="com.phat.entity"/>
 <property name="hibernateProperties">
 	<props>
 		<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-		<!-- find to hibernate.dialect to assignment querys   -->
+	
 		<prop key="hibernate.show_sql">true</prop>
 	</props>
 </property>
@@ -209,6 +200,44 @@
 
 
 
+
+
+
+
+ -->
+
+
+
+
+
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	 <property name="driverClassName" value="org.postgresql.Driver"/> 
+        <property name="url" value="jdbc:postgresql://localhost:5432/employee?autoReconnect=true"/>
+        <property name="username" value="postgres"/>
+        <property name="password" value="phat"/>
+</bean>
+	
+
+<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+<property name="dataSource" ref="dataSource"></property>
+<property name="packagesToScan" value="com.phat.entity"/>
+<property name="hibernateProperties">
+	<props>
+		<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+	
+		<prop key="hibernate.show_sql">true</prop>
+	</props>
+</property>
+
+</bean>
+
+
+
+<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+
+<property name="sessionFactory" ref="sessionFactory"></property>	
+</bean>
+<tx:annotation-driven transaction-manager="transactionManager"/>
 
 
 
